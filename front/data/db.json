@@ -1,0 +1,131 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "id": 2,
+      "title": "json-server2",
+      "author": "typicode2"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "user": [
+    {
+      "id": 1,
+      "email": "teste@teste",
+      "password": "123",
+      "accessToken": "a1b2c3"
+    }
+  ],
+  "me": {
+    "id": 1,
+    "firstName": "Pedro",
+    "lastName": "Cabral",
+    "accountNumber": 11111,
+    "accountDigit": 8,
+    "wallet": 6750,
+    "email": "teste@teste",
+    "accessToken": "a1b2c3"
+  },
+  "transactions": [
+    {
+      "id": 1,
+      "user": {
+        "firstName": "Willian",
+        "lastName": "Bonner"
+      },
+      "value": 500,
+      "type": "received",
+      "updatedAt": "01/01/2022 16:30"
+    },
+    {
+      "id": 2,
+      "user": {
+        "firstName": "Fátima",
+        "lastName": "Bernades"
+      },
+      "value": 700,
+      "type": "received",
+      "updatedAt": "02/01/2022 08:30"
+    },
+    {
+      "id": 3,
+      "user": {
+        "firstName": "Ana",
+        "lastName": "Braga"
+      },
+      "value": 100,
+      "type": "pay",
+      "updatedAt": "03/01/2022 11:30"
+    },
+    {
+      "user": {
+        "firstName": "Alan",
+        "lastName": "Turing"
+      },
+      "type": "pay",
+      "value": 10,
+      "updatedAt": "2022-01-30T00:23:56.997Z",
+      "id": 4
+    },
+    {
+      "user": {
+        "firstName": "Alan",
+        "lastName": "Turing"
+      },
+      "type": "pay",
+      "value": 10,
+      "updatedAt": "2022-01-30T18:33:33.056Z",
+      "id": 5
+    }
+  ],
+  "request": [
+    {
+      "id": 1,
+      "value": 50,
+      "key": "12315151"
+    },
+    {
+      "id": 2,
+      "value": 0,
+      "key": "814043"
+    },
+    {
+      "value": 0,
+      "key": "414354",
+      "id": 3
+    },
+    {
+      "value": 70,
+      "key": "491024",
+      "id": 4
+    },
+    {
+      "value": 80,
+      "key": "295358",
+      "id": 5
+    },
+    {
+      "value": 100,
+      "key": "748763",
+      "id": 6
+    },
+    {
+      "value": 123,
+      "key": "200913",
+      "id": 7
+    }
+  ]
+}

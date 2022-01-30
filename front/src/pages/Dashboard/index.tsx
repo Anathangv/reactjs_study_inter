@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react";
+
 import Button from "../../components/Button";
 import { Card } from "../../components/Card";
 import { Header } from "../../components/Header";
 import Input from "../../components/Input";
+import { useAuth } from "../../hooks/useAuth";
+import { requestAdt, payAdt } from "../../services/ressources/pix";
 import { Statement } from "./Statement";
 import {
   DashboardBackground,
@@ -11,7 +15,27 @@ import {
 } from "./styles";
 
 export function Dashboard() {
-  const wallet = 5000;
+  const { user, getCurrentUser } = useAuth();
+  const wallet = user?.wallet || 0;
+
+  const [value, setValue] = useState("");
+  const [key, setKey] = useState("");
+  const [keyPay, setKeyPay] = useState("");
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
+  const handleNewPayment = async () => {
+    const { data } = await requestAdt(Number(value));
+    setKey(data.key);
+  };
+
+  const handlePayPix = async () => {
+    const { data } = await payAdt(keyPay);
+  };
+
+  if (!user) return null;
 
   return (
     <DashboardBackground>
@@ -36,22 +60,33 @@ export function Dashboard() {
               <h2>Receber PIX</h2>
             </InLineTitle>
             <InLineContainer>
-              <Input style={{ flex: 1 }} placeholder="Valor" />
-              <Button>Gerar Código</Button>
+              <Input
+                style={{ flex: 1 }}
+                placeholder="Valor"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              />
+              <Button onClick={handleNewPayment}>Gerar Código</Button>
             </InLineContainer>
-
-            <p className="primary-color">Pix copia e cola</p>
-            <p className="primary-color">
-              fsadfajsfjdsf fha dsfhaldsjfha dfhasd
-            </p>
+            {key && (
+              <>
+                <p className="primary-color">Pix copia e cola</p>
+                <p className="primary-color">{key}</p>
+              </>
+            )}
           </Card>
           <Card noShadow width="90%">
             <InLineTitle>
               <h2>Pagar PIX</h2>
             </InLineTitle>
             <InLineContainer>
-              <Input style={{ flex: 1 }} placeholder="Insira a chave" />
-              <Button>Pagar PIX</Button>
+              <Input
+                style={{ flex: 1 }}
+                placeholder="Insira a chave"
+                value={keyPay}
+                onChange={(e) => setKeyPay(e.target.value)}
+              />
+              <Button onClick={handlePayPix}>Pagar PIX</Button>
             </InLineContainer>
           </Card>
         </div>

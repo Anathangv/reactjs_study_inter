@@ -1,6 +1,8 @@
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
 import { FiDollarSign } from "react-icons/fi";
 
+import { transactionsAdt } from "../../../services/ressources/pix";
 import {
   StatementContainer,
   StatementItemImage,
@@ -8,7 +10,7 @@ import {
   StatementItemContainer,
 } from "./styles";
 
-interface StatementIten {
+export interface StatementIten {
   user: {
     firstName: string;
     lastName: string;
@@ -17,27 +19,6 @@ interface StatementIten {
   type: "pay" | "received";
   updatedAt: Date;
 }
-
-const statements: StatementIten[] = [
-  {
-    user: {
-      firstName: "Paulo",
-      lastName: "Rodriques",
-    },
-    value: 250.0,
-    type: "pay",
-    updatedAt: new Date(),
-  },
-  {
-    user: {
-      firstName: "Joana",
-      lastName: "D'ark",
-    },
-    value: 300.0,
-    type: "received",
-    updatedAt: new Date(),
-  },
-];
 
 function StatementIten({ user, value, type, updatedAt }: StatementIten) {
   return (
@@ -58,23 +39,36 @@ function StatementIten({ user, value, type, updatedAt }: StatementIten) {
             {user.firstName} {user.lastName}
           </strong>
         </p>
-        <p>{format(updatedAt, "dd/MM/yyyy 'as' HH:mm:'h")}</p>
+        <p>{format(new Date(updatedAt), "dd/MM/yyyy 'as' HH:mm")}</p>
       </StatementItemInfo>
     </StatementItemContainer>
   );
 }
 
 export function Statement() {
+  const [statements, setStatements] = useState<StatementIten[]>();
+
+  const getAllTransactions = async () => {
+    const { data } = await transactionsAdt();
+    setStatements(data);
+  };
+
+  useEffect(() => {
+    getAllTransactions();
+  }, []);
+
   return (
     <StatementContainer>
-      {statements.map(({ user, value, type, updatedAt }) => (
-        <StatementIten
-          user={user}
-          value={value}
-          type={type}
-          updatedAt={updatedAt}
-        />
-      ))}
+      {statements &&
+        statements?.map(({ user, value, type, updatedAt }) => (
+          <StatementIten
+            user={user}
+            value={value}
+            type={type}
+            updatedAt={updatedAt}
+            key={user.firstName}
+          />
+        ))}
     </StatementContainer>
   );
 }
